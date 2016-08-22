@@ -1,0 +1,8 @@
+Class 1:
+We learn the benefits of GIT before going into the basic commands for managing files.
+
+"git init" - creates repository
+"git status" - checks status of file in directory
+"git add" - readies file for committing
+"git commit" - commits the readied files
+"git pull" -
