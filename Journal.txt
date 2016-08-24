@@ -6,3 +6,6 @@ We learn the benefits of GIT before going into the basic commands for managing f
 "git add" - readies file for committing
 "git commit" - commits the readied files
 "git pull" -
+
+Class 2:
+We practice the commands. This also includes rm, which removes files.
