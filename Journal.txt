@@ -12,3 +12,6 @@ We practice the commands. This also includes rm, which removes files.
 
 Class 3:
 We go over paradigms, the difference between declarative and imperative programming, and actually learn a few commands in Python.
+
+Class 4:
+We write two programs: one to find the surface areas and volumes of several figures and the other to find the solution to the quadratic equation. This serves as practice.
