@@ -15,3 +15,6 @@ We go over paradigms, the difference between declarative and imperative programm
 
 Class 4:
 We write two programs: one to find the surface areas and volumes of several figures and the other to find the solution to the quadratic equation. This serves as practice.
+
+Class 5:
+Python can also be written from notepads. Just typing the code and running the command "python filename" is enough to get it started. We learn about if statements and comparison signs.
