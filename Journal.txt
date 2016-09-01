@@ -5,16 +5,26 @@ We learn the benefits of GIT before going into the basic commands for managing f
 "git status" - checks status of file in directory
 "git add" - readies file for committing
 "git commit" - commits the readied files
-"git pull" -
+"git push" - update remote repository
+"git pull" - update from remote repository
 
 Class 2:
-We practice the commands. This also includes rm, which removes files.
+We practice the commands. This also includes git rm, which removes files.
 
 Class 3:
 We go over paradigms, the difference between declarative and imperative programming, and actually learn a few commands in Python.
 
 Class 4:
-We write two programs: one to find the surface areas and volumes of several figures and the other to find the solution to the quadratic equation. This serves as practice.
+We write two programs: one to find the surface areas and volumes of several figures and the other to find the solution to the quadratic equation. 
+This serves as practice.
 
 Class 5:
-Python can also be written from notepads. Just typing the code and running the command "python filename" is enough to get it started. We learn about if statements and comparison signs.
+Python can also be written from notepads. Just typing the code and running the command "python filename" is enough to get it started. 
+We learn about the if statements and comparison signs.
+
+Class 6:
+The comparison statements can also use "and", "or", and "not" directly. We learn about importing files (only those within directories of python).
+
+import "something"
+import "something" as "nickname"
+from "something" import "something_specific"

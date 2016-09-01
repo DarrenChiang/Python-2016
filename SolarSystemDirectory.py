@@ -1,22 +1,29 @@
+print("This program tells you the size of a planet and its distance from Earth.")
 print("Enter the name of a planet in the Solar System: ")
 
 input = input()
 
 if input == "Mercury" :
 	print("Radius:")
-	print("Distance") 
-)
+	print("Distance: ") 
 if input == "Venus" :
-	print("v")
+	print("Radius:")
+	print("Distance: ")
 if input == "Earth" :
-	print("e")
+	print("Radius:")
+	print("Distance: 0")
 if input == "Mars" :
-	print("ma")
+	print("Radius:")
+	print("Distance: ")
 if input == "Jupiter" :
-	print("j")
+	print("Radius:")
+	print("Distance: ")
 if input == "Saturn" :
-	print("s")
+	print("Radius:")
+	print("Distance: ")
 if input == "Uranus" :
-	print("u")
+	print("Radius:")
+	print("Distance: ")
 if input == "Neptune" :
-	print("n")
+	print("Radius:")
+	print("Distance: ")
