@@ -25,6 +25,9 @@ We learn about the if statements and comparison signs.
 Class 6:
 The comparison statements can also use "and", "or", and "not" directly. We learn about importing files (only those within directories of python).
 
+
 import "something"
 import "something" as "nickname"
 from "something" import "something_specific"
+
+Class 7:
