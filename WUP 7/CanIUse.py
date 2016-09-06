@@ -1,0 +1,3 @@
+input = ""
+
+while input != "y
