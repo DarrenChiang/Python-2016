@@ -30,4 +30,6 @@ import "something"
 import "something" as "nickname"
 from "something" import "something_specific"
 
-Class 7:
+Class 9:
+The class practiced an algorithm to generate prime numbers to the point where the user specifies. For loops were learned in order to complete the
+alorithm, and for loops only work with lists (arrays).

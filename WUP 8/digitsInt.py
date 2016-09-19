@@ -11,9 +11,10 @@ temp = int(input)
 while temp > 1 :
 	temp = int(temp / 10)
 	f = f + 1
+size = f
 
-residual = [f + 1]
+residual = [None] * f
 while f >= 0 :
+	f = f - 1
 	input, residual[f] = divmod(input, 10)
 	print(int(residual[f]))
-	f = f - 1
