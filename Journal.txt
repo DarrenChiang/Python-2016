@@ -33,3 +33,11 @@ from "something" import "something_specific"
 Class 9:
 The class practiced an algorithm to generate prime numbers to the point where the user specifies. For loops were learned in order to complete the
 alorithm, and for loops only work with lists (arrays).
+
+10/5/2016
+We go over lists and some functions, utilities and properties of them. Unlike Java or C++, lists in Python have functions that increase their size. Lists
+also can hold multiple values per element.
+
+10/6/2016
+We practice with functions using list arguments. The map function puts every element in the array (second argument) through a function (first argument).
+The filter function does the same but for functions returning booleans.
