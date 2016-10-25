@@ -41,3 +41,24 @@ also can hold multiple values per element.
 10/6/2016
 We practice with functions using list arguments. The map function puts every element in the array (second argument) through a function (first argument).
 The filter function does the same but for functions returning booleans.
+
+10/10/2016
+Focus on functions:
+- must be simple
+- must be well defined
+for the sake of usability.
+
+10/12/2016
+List comprehension: declaration of an array that requires loops and conditions in one single line.
+[value for range if condition]
+
+10/17/2016
+Simple functions => complex program
+
+10/24/2016
+Dictionaries: a lot like objects in Java
+- has own variables
+- no order
+- uses {}
+- del, clear, copy, fromkeys, get, items, keys, values
+
