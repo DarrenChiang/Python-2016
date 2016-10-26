@@ -62,3 +62,6 @@ Dictionaries: a lot like objects in Java
 - uses {}
 - del, clear, copy, fromkeys, get, items, keys, values
 
+10/26/2016
+os.listdir("directory") returns a list of all files in a directory. We also draw a circle with pyplot using the circle equation.
+We solve lots of questions.
