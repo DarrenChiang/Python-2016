@@ -24,7 +24,7 @@ def loadEmptyGrid(grid) : #Loads or resets grid to empty slots
             grid['column'] += 1
         grid['row'] += 1
 
-def getInput(player, grid, repeat, comp) : #Gets player input
+def getInput(player, grid, repeat, comp, comp2) : #Gets player input
     #Funtion fit appears often. Scroll down for info.
     grid['row'] = 0
     grid['column'] = 0
@@ -33,20 +33,24 @@ def getInput(player, grid, repeat, comp) : #Gets player input
     else :
         text = "Enter the row and column in that order (no spaces): "
     if player == 1 :
-        if not repeat :
-            print("Player 1 (X):") #Only prints once
-        while grid['row'] not in [1, 2, 3] or grid['column'] not in [1, 2, 3] : #Input must be within grid
-            unpackInput(grid, text) #Check function unpackInput for info
-            if grid['row'] not in [1, 2, 3] or grid['column'] not in [1, 2, 3] :
-                text = "That slot is out of bounds. Enter another: " #Modifies text when appropriate
-        if grid['value'][fit(grid['row'])][fit(grid['column'])] == ' ' : #Check if slot's taken
-            grid['value'][fit(grid['row'])][fit(grid['column'])] = 'X'
+        if comp2 :
+            print("Player 1 (X): ")
+            computerTurn(grid, player)
         else :
-            getInput(player, grid, True, comp)
+            if not repeat :
+                print("Player 1 (X):") #Only prints once
+            while grid['row'] not in [1, 2, 3] or grid['column'] not in [1, 2, 3] : #Input must be within grid
+                unpackInput(grid, text) #Check function unpackInput for info
+                if grid['row'] not in [1, 2, 3] or grid['column'] not in [1, 2, 3] :
+                    text = "That slot is out of bounds. Enter another: " #Modifies text when appropriate
+            if grid['value'][fit(grid['row'])][fit(grid['column'])] == ' ' : #Check if slot's taken
+                grid['value'][fit(grid['row'])][fit(grid['column'])] = 'X'
+            else :
+                getInput(player, grid, True, comp)
     elif player == 2 :
         if comp : #Check how player 2 is controlled
             print("Player 2 (O):")
-            computerTurn(grid)
+            computerTurn(grid, player)
         else :
             if not repeat :
                 print("Player 2 (O):") #Only prints once
@@ -110,29 +114,34 @@ def checkEnd(grid) : #When to end the looping of turns
     
     return [end, winner]
 
-def computerTurn(grid) : #Function for computer-generated responses
-    done = checkFill(grid, 'O') #Check for chance to win. (Looks for 2 O's in the same row, horizontal, or diagonal.) Between winning and blocking, prioritize winning.
+def computerTurn(grid, player) : #Function for computer-generated responses
+    if player == 1 :
+        enter = 'X'
+    elif player == 2 :
+        enter = 'O'
+ 
+    done = checkFill(grid, 'O', enter) #Check for chance to win. (Looks for 2 O's in the same row, horizontal, or diagonal.) Between winning and blocking, prioritize winning.
 
     if not done : #Done limits the computer's turn to one action.
-        done = checkFill(grid, 'X') #Check for blocking. (Looks for 2 X's in the same row, horizontal, or diagonal.)
+        done = checkFill(grid, 'X', enter) #Check for blocking. (Looks for 2 X's in the same row, horizontal, or diagonal.)
 
     if not done :
-        priority(grid) #When neither of above is necessary, other actions are taken. Check priority for more info.
+        priority(grid, enter) #When neither of above is necessary, other actions are taken. Check priority for more info.
         
     return
 
 #Computer functions:
 #All of the functions here return a boolean, because the computer needs to know when to stop (at 1 action).
 
-def checkFill(grid, mark) : #Checks for occurences of 2 "marks" (X or O)
+def checkFill(grid, mark, enter) : #Checks for occurences of 2 "marks" (X or O)
     done = False
 
     temp = [[grid['value'][row][column] for column in range(0, 5, 2)] for row in range(0, 5, 2)] #Creates a list for rows for checking.
-    done = checkOpening(grid, temp, mark, 0) #Check checkOpening for more info.
+    done = checkOpening(grid, temp, mark, 0, enter) #Check checkOpening for more info.
 
     if not done :
         temp = [[grid['value'][row][column] for row in range(0, 5, 2)] for column in range(0, 5, 2)] #Creates a list for columns for checking.
-        done = checkOpening(grid, temp, mark, 1)
+        done = checkOpening(grid, temp, mark, 1, enter)
 
     #The rest are for diagonals. The reason they are different is because temp now only hold one chain (1 diagonal) instead of 3 chains (3 rows or 3 columns).
     if not done : #The logic, however, is similar to checkOpening.
@@ -145,7 +154,7 @@ def checkFill(grid, mark) : #Checks for occurences of 2 "marks" (X or O)
             else :
                 empty = i
         if count == 2 and grid['value'][fit(empty)][fit(empty)] == ' ' :
-            grid['value'][fit(empty)][fit(empty)] = 'O'
+            grid['value'][fit(empty)][fit(empty)] = enter
             done = True
             
     if not done :
@@ -158,12 +167,12 @@ def checkFill(grid, mark) : #Checks for occurences of 2 "marks" (X or O)
             else :
                 empty = i
         if count == 2 and grid['value'][fit(empty + 1)][fit(empty + 1)] == ' ' :
-            grid['value'][fit(empty + 1)][fit(empty + 1)] = 'O'
+            grid['value'][fit(empty + 1)][fit(empty + 1)] = enter
             done = True
     
     return done
 
-def checkOpening(grid, temp, mark, direct) : #Checks for 2's in the vertical and horizontal. Direct determines whether vertical or horizontal.
+def checkOpening(grid, temp, mark, direct, enter) : #Checks for 2's in the vertical and horizontal. Direct determines whether vertical or horizontal.
     done = False
 
     for i in range(0, len(temp)) : #For every chain, reset count and add to it to find the occurences of mark (X, O). If count is 2 and the remaining space (empty) is truly "empty" then proceed.
@@ -178,32 +187,32 @@ def checkOpening(grid, temp, mark, direct) : #Checks for 2's in the vertical and
                 eMark = temp[i][z]
         if count == 2 and eMark == ' ' :
             if direct == 0 :
-                grid['value'][fit(i + 1)][fit(empty + 1)] = 'O'
+                grid['value'][fit(i + 1)][fit(empty + 1)] = enter
             elif direct == 1 :
-                grid['value'][fit(empty + 1)][fit(i + 1)] = 'O'
+                grid['value'][fit(empty + 1)][fit(i + 1)] = enter
             done = True
             break
 
     return done #Probably should've just merged horizontal and vertical into this one function.
 
-def priority(grid) :
+def priority(grid, enter) :
     done = False
     a = []
     if grid['value'][2][2] == ' ' : #Prioritize center block if no need for blocking or winning.
-        grid['value'][2][2] = 'O'
+        grid['value'][2][2] = enter
         done = True
     if not done : 
         temp = [[int(iFit(row)), int(iFit(column))] for row in range(0, 5, 2) for column in range(0, 5, 2) if grid['value'][row][column] == " "] #Gathers all empty spaces. (Previous checks make this okay.)
         a = temp
         for i in temp :
             if i in [[1, 1], [1, 3], [3, 1], [3, 3]] : #Prioritze corners.
-                grid['value'][fit(i[0])][fit(i[1])] = 'O'
+                grid['value'][fit(i[0])][fit(i[1])] = enter
                 done = True
                 break
     if not done : #If no emergence (after checking everything above), then randomizing is safe.
         import random
         b = random.randint(0, len(a) - 1)
-        grid['value'][fit(a[b][0])][fit(a[b][1])] = 'O'
+        grid['value'][fit(a[b][0])][fit(a[b][1])] = enter
         
 
 def fit(a) : #Changes grid values to list values ([1, 2, 3] => [0, 2, 4])
@@ -223,9 +232,9 @@ loadEmptyGrid(grid)
 choice = ""
 text = "Play against player (p) or computer (c)? : "
 
-while choice not in ['p', 'c'] :
+while choice not in ['p', 'c', 's'] :
     choice = input(text)
-    if choice not in ['p', 'c'] :
+    if choice not in ['p', 'c', 's'] :
         text = "Invalid input, enter again: "
 
 text = "Which player goes first? (1 or 2) "
@@ -235,12 +244,15 @@ while player not in [1, 2] :
     if player not in [1, 2] :
         text = "Invalid input, enter again: "
 
-if choice == 'c' :
+comp2 = False
+if choice == 'c' or choice == 's' :
     comp = True
+    if choice == 's' :
+        comp2 = True
 
 while not checkEnd(grid)[0] :
     displayGrid(grid)
-    getInput(player, grid, False, comp)
+    getInput(player, grid, False, comp, comp2)
     if player == 1 :
         player = 2
     else :
