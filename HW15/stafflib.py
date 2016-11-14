@@ -25,9 +25,9 @@ def showRegistre():
     """
     This function prints out the information of the employees in a specific format.
     """
-     print("Showing registre of employees:")
-     staffNumber = 1
-     for i in staffList:
+    print("Showing registre of employees:")
+    staffNumber = 1
+    for i in staffList:
         string = "day"
         if i["daysWorked"] != 1:
             string += 's'
