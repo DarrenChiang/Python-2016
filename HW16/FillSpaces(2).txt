@@ -1,0 +1,4 @@
+factorial
+
+It will return n * its decrement (until it reaches 1).
+n * (n - 1) * ((n - 1) - 1) * .... * 1
