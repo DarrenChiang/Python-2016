@@ -4,9 +4,11 @@ pg.init()
 
 window = pg.display.set_mode((800, 600))
 
-pg.display.set_caption('template')
+pg.display.set_caption('Circles')
 
 clock = pg.time.Clock()
+
+
 
 game_on = True
 

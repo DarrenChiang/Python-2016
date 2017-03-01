@@ -20,8 +20,12 @@ class Sprite_Plus(pg.sprite.Sprite):
         self.rect = self.x, self.y
 
         self.imgList = []
+        self.sprite_image = None
         if 'image list' in spriteInfo:
             self.imgList = spriteInfo['image list']
+
+        self.vSpd = 0
+        self.hSpd = 0
 
     def setCoordinate(self, coord):
         self.x, self.y = coord
@@ -46,6 +50,18 @@ class Sprite_Plus(pg.sprite.Sprite):
 
     def getY(self):
         return self.y
+
+    def getTop(self):
+        return self.y
+
+    def getBottom(self):
+        return self.y + self.h
+
+    def getRight(self):
+        return self.x + self.w
+
+    def getLeft(self):
+        return self.x
 
     def setColor(self, color):
         self.c = color
@@ -84,15 +100,47 @@ class Sprite_Plus(pg.sprite.Sprite):
     def addImage(self, img):
         self.imgList.append(img)
 
+    def setImageList(self, iList):
+        self.imgList = iList
+
     def getImageList(self):
         return self.imgList
 
     def setImage(self, num):
-        self.sprite_image = self.imgList[num]
+        if num >= 0 and num < len(self.imgList):
+            self.sprite_image = self.imgList[num]
+        else:
+            self.sprite_image = None
+
+    def getImage(self):
+        return self.sprite_image
+
+    def adjustImages(self):
+        self.setImageList([pg.transform.scale(img, (self.w, self.h)) for img in self.getImageList()])
+
+    def setVerticalSpeed(self, spd):
+        self.vSpd = spd
+
+    def changeVerticalSpeed(self, spd):
+        self.vSpd += spd
+
+    def getVerticalSpeed(self):
+        return self.vSpd
+
+    def setHorizontalSpeed(self, spd):
+        self.hSpd = spd
+
+    def changeHorizontalSpeed(self, spd):
+        self.hSpd += spd
+
+    def getHorizontalSpeed(self):
+        return self.hSpd
 
     def update(self):
         self.image = pg.Surface((self.w, self.h))
         self.image.fill(self.c)
+        self.changeX(self.getHorizontalSpeed())
+        self.changeY(self.getVerticalSpeed())
         self.rect = self.x, self.y
 
 class Character(Sprite_Plus):

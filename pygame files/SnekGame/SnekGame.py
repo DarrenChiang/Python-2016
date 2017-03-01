@@ -264,6 +264,7 @@ while game_on:
                     immunity = 0
                     score = 0
                     game_on = True
+                    game_state = state[1]
          
     """ 
     for event in pygame.event.get():
