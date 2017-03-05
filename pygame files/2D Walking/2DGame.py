@@ -4,46 +4,44 @@ sys.path.insert(0, 'C:\\Users\\ASUS\\Documents\\Python Proj\\Pygame Files\\Class
 
 from Sprite import Character
 from Environments import Group_Plus
+from Animation import Animation
 
 def keyInput():
     keys = pg.key.get_pressed()
-    state = None
-    
+    state = 'Default'    
     if keys[pg.K_w]:
-        state = 'u'
+        state = 'Up'
     elif keys[pg.K_s]:
-        state = 'd'
+        state = 'Down'
     elif keys[pg.K_d]:
-        state = 'r'
+        state = 'Right'
     elif keys[pg.K_a]:
-        state = 'l'
-
+        state = 'Left'
     return state
 
 
-def walk(sprite, state, spd, count):
+def walk(sprite, state, spd):
     vSpd = 0
     hSpd = 0
-    if state == 'u':
+    if state == 'Up':
         vSpd = -spd
-        #use image set x
-    elif state == 'd':
+        sprite.animation_On(True)
+        sprite.useAnimation(state)
+    elif state == 'Down':
         vSpd = spd
-        #use image set x
-    elif state == 'r':
+        sprite.animation_On(True)
+        sprite.useAnimation(state)
+    elif state == 'Right':
         hSpd = spd
         #use image set x
-    elif state == 'l':
+    elif state == 'Left':
         hSpd = -spd
         #use image set x
+    else:
+        sprite.animation_On(False)
 
     sprite.setVerticalSpeed(vSpd)
     sprite.setHorizontalSpeed(hSpd)
-
-def alternate(count):
-    count += 1
-    if count > 4:
-        count = 1
 
 pg.init()
 
@@ -62,18 +60,30 @@ char_info = {'name': 'Bob',
 
 char1 = Character(char_info)
 
-char1.setCoordinate((400 - char1.getWidth() / 2, 300 - char1.getHeight() / 2))
+d1 = pg.image.load('Images\\Down1.png')
+d2 = pg.image.load('Images\\Down2.png')
+d3 = pg.transform.flip(d2, True, False)
+
+u1 = pg.image.load('Images\\Up1.png')
+u2 = pg.image.load('Images\\Up2.png')
+u3 = pg.transform.flip(u2, True, False)
+
+an1 = Animation('Down', 30, [d2, d3])
+an1.adjustImages(char1)
+
+an2 = Animation('Up', 30, [u2, u3])
+an2.adjustImages(char1)
+
+char1.createAnimationSet([an1, an2])
+
+char1.center(window)
 
 sprites.add(char1)
 
 game_on = True
 
-count = 0
-
 while game_on:
     window.fill((255, 255, 255))
-
-    alternate(count)
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -81,10 +91,7 @@ while game_on:
 
     state = keyInput()
 
-    if state != None:
-        count = 0
-
-    walk(char1, state, 3, count)
+    walk(char1, state, 3)
 
     sprites.update()
 

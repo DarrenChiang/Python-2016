@@ -39,6 +39,9 @@ def colorizor(group, count):
             b = random.randint(0, 255)
             c['color'] = (r, g, b)
         
+def resetColor(group):
+    for c in group:
+        c['color'] = (50, 50, 255)
 
 pg.init()
 
@@ -65,6 +68,8 @@ for i in range(251):
 
 game_on = True
 
+color = False
+
 count = 0
 
 while game_on:
@@ -78,7 +83,17 @@ while game_on:
         if event.type == pg.QUIT:
             game_on = False
 
-    colorizor(group, count)
+    keys = pg.key.get_pressed()
+
+    if keys[pg.K_SPACE]:
+        color = True
+    else:
+        color = False
+
+    if color == True:
+        colorizor(group, count)
+    else:
+        resetColor(group)
 
     move(group)
 

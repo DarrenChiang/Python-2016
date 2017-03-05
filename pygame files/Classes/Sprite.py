@@ -27,8 +27,17 @@ class Sprite_Plus(pg.sprite.Sprite):
         self.vSpd = 0
         self.hSpd = 0
 
+        self.animList = None
+        self.currentAnim = 0
+        self.animOn = False
+        
+
     def setCoordinate(self, coord):
         self.x, self.y = coord
+
+    def center(self, win):
+        w, h = win.get_size()
+        self.setCoordinate(((w - self.w) / 2, (h - self.h) / 2))
 
     def getCoordinate(self):
         return self.x, self.y
@@ -106,11 +115,14 @@ class Sprite_Plus(pg.sprite.Sprite):
     def getImageList(self):
         return self.imgList
 
-    def setImage(self, num):
+    def setListImage(self, num):
         if num >= 0 and num < len(self.imgList):
             self.sprite_image = self.imgList[num]
         else:
             self.sprite_image = None
+
+    def setImage(self, img):
+        self.sprite_image = img
 
     def getImage(self):
         return self.sprite_image
@@ -136,12 +148,29 @@ class Sprite_Plus(pg.sprite.Sprite):
     def getHorizontalSpeed(self):
         return self.hSpd
 
+    def createAnimationSet(self, aList):
+        self.animList = aList
+
+    def addAnimation(self, a):
+        self.animList.append(a)
+
+    def useAnimation(self, name):
+        for i in range(len(self.animList)):
+            if self.animList[i].getName() == name:
+                self.currentAnim = i
+
+    def animation_On(self, b):
+        self.animOn = b
+        self.animList[self.currentAnim].turnOn(b)
+
     def update(self):
         self.image = pg.Surface((self.w, self.h))
         self.image.fill(self.c)
         self.changeX(self.getHorizontalSpeed())
         self.changeY(self.getVerticalSpeed())
         self.rect = self.x, self.y
+        if self.animOn:
+            self.setImage(self.animList[self.currentAnim].cycle())
 
 class Character(Sprite_Plus):
     def __init__(self, spriteInfo):

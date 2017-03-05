@@ -1,8 +1,17 @@
 import pygame as pg
 
 class Group_Plus(pg.sprite.Group):
-    def __init__(self):
+    def __init__(self, gameInfo = None):
         pg.sprite.Group.__init__(self)
+
+    def startCount(self):
+        self.counter = 0
+
+    def getCount(self):
+        return self.counter
+
+    def update(self):
+        pg.sprite.Group.update(self)
 
     def draw(self, surface):
         sprites = self.sprites()
@@ -22,7 +31,7 @@ class Platformer(Group_Plus):
             self.gravity = gameInfo['gravity']
 
     def update(self):
-        pg.sprite.Group.update(self)
+        Group_Plus.update(self)
         for s in self.sprites():
             if s.getBottom() < 600:
                 s.changeVerticalSpeed(self.gravity)
