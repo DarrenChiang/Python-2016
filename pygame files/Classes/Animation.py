@@ -34,12 +34,10 @@ class Animation():
     def cycle(self):
         if self.on:
             self.counter += 1
-            if self.counter == self.cyclePeriod:
+            if self.counter >= self.cyclePeriod / len(self.list):
                 self.counter = 0
                 self.currentPic += 1
                 if self.currentPic > len(self.list) - 1:
                     self.currentPic = 0
-            return self.getImage()
-        else:
-            return None
+        return self.getImage()
         

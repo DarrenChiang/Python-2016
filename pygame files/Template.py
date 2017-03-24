@@ -1,6 +1,6 @@
 import pygame as pg
 import sys
-sys.insert.path(0, 'C:\\Users\\ASUS\\Documents\\Python Proj\\Pygame Files\\Classes')
+sys.path.insert(0, 'C:\\Users\\ASUS\\Documents\\Python Proj\\Pygame Files\\Classes')
 
 pg.init()
 
