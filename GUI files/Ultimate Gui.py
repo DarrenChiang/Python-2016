@@ -1,6 +1,6 @@
 import sys
 import time
-from datetime import datetime
+import datetime
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
@@ -8,11 +8,13 @@ class CountDown(QThread):
     set_max = pyqtSignal(int)
     update = pyqtSignal(int)
     
-    def __init__(self):
+    def __init__(self, widget, text):
         super().__init__()
         self.deadline = None
         self.duration = None
         self.progress = None
+        self.indicator = widget
+        self.text = text
 
     def checkEarliest(self, earliest):
         if self.deadline != earliest:
@@ -20,13 +22,14 @@ class CountDown(QThread):
             self.start()
 
     def getDuration(self):
-        current = datetime.now()
+        current = datetime.datetime.now()
 
         f = self.deadline.date_numeral().split()
-        final = datetime(int(f[2]), int(f[0]), int(f[1]))
+        final = datetime.datetime(int(f[2]), int(f[0]), int(f[1]))
 
         if final > current:
-            return (final - current).seconds
+            dur = final - current
+            return int(dur.days * 24 + dur.seconds / 3600)
         else:
             return 0
 
@@ -36,8 +39,9 @@ class CountDown(QThread):
     def run(self):
         self.duration = self.getDuration()
         self.update.emit(self.duration)
-        print(self.duration)
-        for i in range(1, self.duration + 1):
+        
+        for i in range(1, 101):
+            self.indicator.setText(self.text + ' ' + str(int(self.duration - i * 0.01 * self.duration)) + ' hours')
             self.progress = i
             self.update.emit(i)
             time.sleep(0.1)
@@ -86,8 +90,7 @@ class Ultimate_GUI(QTabWidget):
     def set_tab1(self):
         layout = QFormLayout()
         
-        self.countDown = QLineEdit(self)
-        self.countDown.setReadOnly(True)
+        self.countDown = QLabel(self)
         self.text1 = 'Time until next deadline: '
         self.countDown.setText(self.text1)
         layout.addWidget(self.countDown)
@@ -172,7 +175,7 @@ class Ultimate_GUI(QTabWidget):
         return deadline
 
     def setCountdown(self, deadline):
-        self.thread = CountDown()
+        self.thread = CountDown(self.countDown, self.text1)
         self.thread.set_max.connect(self.progressBar.setMaximum)
         self.thread.update.connect(self.progressBar.setValue)
         self.thread.checkEarliest(deadline)
