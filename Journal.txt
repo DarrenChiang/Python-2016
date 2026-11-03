@@ -69,3 +69,6 @@ We do some "stackoverflow" questions.
 We do more.
 os.listdir("directory") returns a list of all files in a directory. We also draw a circle with pyplot using the circle equation.
 We solve lots of questions.
+
+10/31/2016
+We work on Tic Tac Toe, using dictionaries to organize the grid.
